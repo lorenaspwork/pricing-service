@@ -14,6 +14,7 @@ import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.ContentCachingResponseWrapper;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Set;
@@ -78,11 +79,7 @@ public class HttpLoggingFilter extends OncePerRequestFilter {
 
     private void logResponse(ContentCachingResponseWrapper response, long elapsedMs) {
 
-        String body = new String(
-                response.getContentAsByteArray(), response.getCharacterEncoding() != null
-                        ? java.nio.charset.Charset.forName(response.getCharacterEncoding())
-                        : java.nio.charset.StandardCharsets.UTF_8
-        );
+        String body = new String(response.getContentAsByteArray(), StandardCharsets.UTF_8);
 
         log.info("""
                 
