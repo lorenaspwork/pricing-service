@@ -2,7 +2,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-      format_sql: true #Formatea las queries para que sean más legibles en los logs
+      format_sql: true
 
 logging:
   level:

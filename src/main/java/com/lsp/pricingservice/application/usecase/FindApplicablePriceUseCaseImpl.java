@@ -19,9 +19,6 @@ public class FindApplicablePriceUseCaseImpl implements FindApplicablePriceUseCas
 
         List<Price> prices = findApplicablePricePort.findApplicablePrice(productId, brandId, applicationDate);
 
-//        List<String> list = null;
-//        list.get(1);
-
         if (prices.isEmpty()) {
             throw new ServiceException(ErrorCode.PRICE_NOT_FOUND, productId, brandId);
         }
@@ -31,6 +28,7 @@ public class FindApplicablePriceUseCaseImpl implements FindApplicablePriceUseCas
         }
 
         Price price = prices.getFirst();
+
         if (price == null) {
             throw new IllegalStateException("Applicable price cannot be null");
         }
