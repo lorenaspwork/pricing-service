@@ -3,8 +3,7 @@
 REST API para consultar el precio aplicable a un producto y una marca en una
 fecha determinada. El proyecto utiliza Java 21 y Spring Boot, sigue una
 arquitectura hexagonal y adopta un enfoque API First: el contrato OpenAPI es la
-fuente para generar la interfaz HTTP y sus DTOs. Para la ejecución local con el
-perfil `standalone` utiliza H2 en memoria.
+fuente para generar la interfaz HTTP y sus DTOs. Para la ejecución utiliza H2 en memoria.
 
 ## Tecnologías
 
@@ -138,25 +137,23 @@ resultado o el estado de error y el tiempo de ejecución.
 ## Configuración y ejecución local
 
 La configuración común está en `src/main/resources/application.yml`. Define el
-context path `/api`, el formato de logs y `ddl-auto: none`. El perfil
-`standalone`, configurado en `application-standalone.yml`, añade H2 en memoria,
-carga `sql/schema.sql` y `sql/data.sql`, y habilita H2 Console.
+context path `/api`, el formato de logs, `ddl-auto: none`, añade H2 en memoria,
+carga `sql/schema.sql` y `sql/data.sql` y habilita H2 Console.
 
-Desde la raíz del proyecto, inicia la aplicación con el perfil `standalone`:
+Desde la raíz del proyecto, inicia la aplicación:
 
 ```bash
-./mvnw spring-boot:run -Dspring-boot.run.profiles=standalone
+./mvnw spring-boot:run
 ```
 
 En Windows:
 
 ```powershell
-.\mvnw.cmd spring-boot:run -Dspring-boot.run.profiles=standalone
+.\mvnw.cmd spring-boot:run
 ```
 
 La API queda disponible en `http://localhost:8080/api/v1/prices`. La consola
-H2 de ese perfil está en `http://localhost:8080/api/h2-console`. La conexión
-local configurada es:
+H2 está en `http://localhost:8080/api/h2-console`. La conexión configurada es:
 
 | Campo | Valor |
 |---|---|
@@ -180,12 +177,6 @@ En Windows:
 ```powershell
 .\mvnw.cmd test
 ```
-
-Los tests actuales cubren el caso de uso, el controller, el manejo de errores,
-los mappers, la consulta JPA y el endpoint mediante MockMvc con el contexto
-Spring. La consulta JPA incluye escenarios del ejercicio, límites inclusivos
-del intervalo, ausencia de resultados y empate real en prioridad máxima.
-También hay tests unitarios para `LoggingAspect` y `HttpLoggingFilter`.
 
 Generar el artefacto Maven:
 
@@ -227,7 +218,6 @@ src/
 │       ├── openapi/openapi-rest.yaml
 │       ├── sql/
 │       ├── application.yml
-│       ├── application-standalone.yml
 │       └── messages*.properties
 └── test/
     ├── java/com/lsp/pricingservice/
