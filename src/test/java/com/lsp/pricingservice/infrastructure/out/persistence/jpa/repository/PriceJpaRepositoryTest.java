@@ -22,6 +22,8 @@ class PriceJpaRepositoryTest {
 
     private static final Integer PRODUCT_ID = 35455;
     private static final Integer BRAND_ID = 1;
+    private static final Integer PRODUCT_ID_01 = 35001;
+
 
     @Autowired
     private PriceJpaRepository priceJpaRepository;
@@ -39,12 +41,8 @@ class PriceJpaRepositoryTest {
 
     @Test
     void givenSeveralApplicablePricesWithTheSameMaximumPriority_whenFindApplicablePrice_thenReturnAllTiedPrices() {
-        priceJpaRepository.saveAll(List.of(
-                price(7, 1, LocalDateTime.of(2020, 6, 14, 11, 0), LocalDateTime.of(2020, 6, 14, 13, 0)),
-                price(8, 1, LocalDateTime.of(2020, 6, 14, 11, 0), LocalDateTime.of(2020, 6, 14, 13, 0))));
-
         List<PriceEntity> prices = priceJpaRepository.findApplicablePrice(
-                PRODUCT_ID, BRAND_ID, LocalDateTime.of(2020, 6, 14, 12, 0));
+                PRODUCT_ID_01, BRAND_ID, LocalDateTime.of(2021, 6, 14, 12, 0));
 
         assertThat(prices)
                 .extracting(PriceEntity::getId)
@@ -98,21 +96,4 @@ class PriceJpaRepositoryTest {
         );
     }
 
-    private static PriceEntity price(
-            Integer id,
-            Integer priority,
-            LocalDateTime startDate,
-            LocalDateTime endDate) {
-        PriceEntity price = new PriceEntity();
-        price.setId(id);
-        price.setBrandId(BRAND_ID);
-        price.setProductId(PRODUCT_ID);
-        price.setStartDate(startDate);
-        price.setEndDate(endDate);
-        price.setPriceList(id);
-        price.setPriority(priority);
-        price.setPrice(new BigDecimal("20.00"));
-        price.setCurrencyIsoCode("EUR");
-        return price;
-    }
 }
