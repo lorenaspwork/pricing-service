@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+      format_sql: true #Formatea las queries para que sean más legibles en los logs
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level [%X{requestId}] %logger{36} - %msg%n"
+
+server:
+  servlet:
+    context-path: /api
