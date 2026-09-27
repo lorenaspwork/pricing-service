@@ -3,7 +3,8 @@
 REST API para consultar el precio aplicable a un producto y una marca en una
 fecha determinada. El proyecto utiliza Java 21 y Spring Boot, sigue una
 arquitectura hexagonal y adopta un enfoque API First: el contrato OpenAPI es la
-fuente para generar la interfaz HTTP y sus DTOs. Para la ejecución utiliza H2 en memoria.
+fuente para generar la interfaz HTTP y sus DTOs. Para la ejecución se utiliza H2
+como base de datos en memoria.
 
 ## Tecnologías
 
