@@ -3,11 +3,6 @@ CREATE TABLE BRAND (
                        NAME VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE PRODUCT (
-                         ID INTEGER PRIMARY KEY,
-                         NAME VARCHAR(255)
-);
-
 CREATE TABLE PRICES (
                         ID INTEGER PRIMARY KEY,
                         BRAND_ID INTEGER NOT NULL,
@@ -22,10 +17,6 @@ CREATE TABLE PRICES (
                         CONSTRAINT FK_PRICES_BRAND
                             FOREIGN KEY (BRAND_ID)
                                 REFERENCES BRAND(ID),
-
-                        CONSTRAINT FK_PRICES_PRODUCT
-                            FOREIGN KEY (PRODUCT_ID)
-                                REFERENCES PRODUCT(ID),
 
                         CONSTRAINT CK_PRICES_DATE_RANGE
                             CHECK (END_DATE >= START_DATE),
