@@ -1,5 +1,6 @@
 package com.lsp.pricingservice.infrastructure.in.web;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -44,6 +45,22 @@ class PricingControllerIntegrationTest {
                 .andExpect(jsonPath("$.brandId").value(brandId))
                 .andExpect(jsonPath("$.priceList").value(expectedPriceList))
                 .andExpect(jsonPath("$.price").value(expectedPrice.doubleValue()));
+    }
+
+    @Test
+    void givenNoApplicablePrice_whenGetApplicablePrice_thenReturnNotFoundError() throws Exception {
+        mockMvc.perform(get(PRICES_ENDPOINT)
+                        .contextPath(CONTEXT_PATH)
+                        .header("Accept-Language", "en")
+                        .param("applicationDate", "2021-01-01T00:00:00")
+                        .param("productId", "35455")
+                        .param("brandId", "1"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.errorType").value("Not Found"))
+                .andExpect(jsonPath("$.code").value("PRICE-001"))
+                .andExpect(jsonPath("$.message")
+                        .value("No applicable price was found for product 35,455 and brand 1."));
     }
 
     private static Stream<Arguments> applicablePrices() {
