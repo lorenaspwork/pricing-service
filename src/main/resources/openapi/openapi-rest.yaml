@@ -125,7 +125,6 @@ components:
 
         price:
           type: number
-          format: decimal
           description: Final price to apply.
           example: 25.45
 

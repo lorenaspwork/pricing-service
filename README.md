@@ -41,7 +41,7 @@ como HTTP o JPA. `ApplicationConfig` registra el caso de uso como bean.
 
 ```mermaid
 erDiagram
-    PRICE {
+    PRICES {
         int ID PK
         int BRAND_ID FK
         int PRODUCT_ID
@@ -56,7 +56,7 @@ erDiagram
         int ID PK
         varchar NAME "VARCHAR(50), NOT NULL"
     }
-    PRICE }|--|| BRAND : belongs_to
+    PRICES }|--|| BRAND : belongs_to
 ```
 
 ## Consulta de precios
