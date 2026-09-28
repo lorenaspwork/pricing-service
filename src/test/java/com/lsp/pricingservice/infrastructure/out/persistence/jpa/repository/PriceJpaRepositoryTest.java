@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
+import org.springframework.data.domain.Limit;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
@@ -31,7 +32,7 @@ class PriceJpaRepositoryTest {
     @ParameterizedTest
     @MethodSource("applicablePrices")
     void givenApplicationDateProductIdAndBrandId_whenFindApplicablePrice_thenReturnPriceList(LocalDateTime applicationDate, BigDecimal expectedPrice) {
-        List<PriceEntity> prices = priceJpaRepository.findApplicablePrice(PRODUCT_ID, BRAND_ID, applicationDate);
+        List<PriceEntity> prices = findApplicablePrices(PRODUCT_ID, BRAND_ID, applicationDate);
 
         assertThat(prices)
                 .singleElement()
@@ -41,7 +42,7 @@ class PriceJpaRepositoryTest {
 
     @Test
     void givenSeveralApplicablePricesWithTheSameMaximumPriority_whenFindApplicablePrice_thenReturnAllTiedPrices() {
-        List<PriceEntity> prices = priceJpaRepository.findApplicablePrice(
+        List<PriceEntity> prices = findApplicablePrices(
                 PRODUCT_ID_01, BRAND_ID, LocalDateTime.of(2021, 6, 14, 12, 0));
 
         assertThat(prices)
@@ -51,10 +52,37 @@ class PriceJpaRepositoryTest {
 
     @Test
     void givenNoMatchingPrice_whenFindApplicablePrice_thenReturnEmptyList() {
-        List<PriceEntity> prices = priceJpaRepository.findApplicablePrice(
+        List<PriceEntity> prices = findApplicablePrices(
                 99999, BRAND_ID, LocalDateTime.of(2020, 6, 14, 12, 0));
 
         assertThat(prices).isEmpty();
+    }
+
+    @Test
+    void givenMoreThanTwoApplicablePricesWithTheSameMaximumPriority_whenFindApplicablePrice_thenReturnAtMostTwoPrices() {
+        PriceEntity thirdTiedPrice = new PriceEntity();
+        thirdTiedPrice.setId(9);
+        thirdTiedPrice.setBrandId(BRAND_ID);
+        thirdTiedPrice.setProductId(PRODUCT_ID_01);
+        thirdTiedPrice.setStartDate(LocalDateTime.of(2021, 6, 14, 0, 0));
+        thirdTiedPrice.setEndDate(LocalDateTime.of(2021, 12, 31, 23, 59, 59));
+        thirdTiedPrice.setPriceList(6);
+        thirdTiedPrice.setPriority(1);
+        thirdTiedPrice.setPrice(new BigDecimal("69.95"));
+        thirdTiedPrice.setCurrencyIsoCode("EUR");
+        priceJpaRepository.saveAndFlush(thirdTiedPrice);
+
+        List<PriceEntity> prices = findApplicablePrices(
+                PRODUCT_ID_01, BRAND_ID, LocalDateTime.of(2021, 6, 14, 12, 0));
+
+        assertThat(prices).hasSize(2);
+    }
+
+    private List<PriceEntity> findApplicablePrices(
+            Integer productId,
+            Integer brandId,
+            LocalDateTime applicationDate) {
+        return priceJpaRepository.findApplicablePrice(productId, brandId, applicationDate, Limit.of(2));
     }
 
     private static Stream<Arguments> applicablePrices() {

@@ -40,30 +40,30 @@ class FindApplicablePriceUseCaseImplTest {
     @Test
     void givenExactlyOneValidPrice_whenFindApplicablePrice_thenReturnThatPrice() {
         Price expectedPrice = PriceTestDataFactory.price();
-        when(findApplicablePricePort.findApplicablePrice(PRODUCT_ID, BRAND_ID, APPLICATION_DATE))
+        when(findApplicablePricePort.findApplicablePrices(PRODUCT_ID, BRAND_ID, APPLICATION_DATE))
                 .thenReturn(List.of(expectedPrice));
 
         Price result = useCase.findApplicablePrice(PRODUCT_ID, BRAND_ID, APPLICATION_DATE);
 
         assertThat(result).isSameAs(expectedPrice);
-        verify(findApplicablePricePort).findApplicablePrice(PRODUCT_ID, BRAND_ID, APPLICATION_DATE);
+        verify(findApplicablePricePort).findApplicablePrices(PRODUCT_ID, BRAND_ID, APPLICATION_DATE);
     }
 
     @Test
     void givenNoApplicablePrices_whenFindApplicablePrice_thenThrowPriceNotFound() {
-        when(findApplicablePricePort.findApplicablePrice(PRODUCT_ID, BRAND_ID, APPLICATION_DATE))
+        when(findApplicablePricePort.findApplicablePrices(PRODUCT_ID, BRAND_ID, APPLICATION_DATE))
                 .thenReturn(List.of());
 
         assertThatThrownBy(() -> useCase.findApplicablePrice(PRODUCT_ID, BRAND_ID, APPLICATION_DATE))
                 .isInstanceOfSatisfying(ServiceException.class, exception ->
                         assertThat(exception.getErrorCode()).isEqualTo(ErrorCode.PRICE_NOT_FOUND));
 
-        verify(findApplicablePricePort).findApplicablePrice(PRODUCT_ID, BRAND_ID, APPLICATION_DATE);
+        verify(findApplicablePricePort).findApplicablePrices(PRODUCT_ID, BRAND_ID, APPLICATION_DATE);
     }
 
     @Test
     void givenMultipleApplicablePrices_whenFindApplicablePrice_thenThrowDuplicatedPrice() {
-        when(findApplicablePricePort.findApplicablePrice(PRODUCT_ID, BRAND_ID, APPLICATION_DATE))
+        when(findApplicablePricePort.findApplicablePrices(PRODUCT_ID, BRAND_ID, APPLICATION_DATE))
                 .thenReturn(List.of(
                         PriceTestDataFactory.priceBuilder().withId(1).build(),
                         PriceTestDataFactory.priceBuilder().withId(2).build()));
@@ -72,7 +72,7 @@ class FindApplicablePriceUseCaseImplTest {
                 .isInstanceOfSatisfying(ServiceException.class, exception ->
                         assertThat(exception.getErrorCode()).isEqualTo(ErrorCode.DUPLICATED_PRICE));
 
-        verify(findApplicablePricePort).findApplicablePrice(PRODUCT_ID, BRAND_ID, APPLICATION_DATE);
+        verify(findApplicablePricePort).findApplicablePrices(PRODUCT_ID, BRAND_ID, APPLICATION_DATE);
     }
 
 }

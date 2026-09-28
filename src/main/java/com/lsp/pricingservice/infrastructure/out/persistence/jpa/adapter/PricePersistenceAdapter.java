@@ -5,6 +5,7 @@ import com.lsp.pricingservice.domain.model.Price;
 import com.lsp.pricingservice.infrastructure.out.persistence.jpa.mapper.PriceEntityMapper;
 import com.lsp.pricingservice.infrastructure.out.persistence.jpa.repository.PriceJpaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Limit;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -19,8 +20,8 @@ public class PricePersistenceAdapter implements FindApplicablePricePort {
     private final PriceEntityMapper mapper;
 
     @Override
-    public List<Price> findApplicablePrice(Integer productId, Integer brandId, LocalDateTime applicationDate) {
-        return repository.findApplicablePrice(productId, brandId, applicationDate)
+    public List<Price> findApplicablePrices(Integer productId, Integer brandId, LocalDateTime applicationDate) {
+        return repository.findApplicablePrice(productId, brandId, applicationDate, Limit.of(2))
                 .stream()
                 .map(mapper::toDomain)
                 .toList();

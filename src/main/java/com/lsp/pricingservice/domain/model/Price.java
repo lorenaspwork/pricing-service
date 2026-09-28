@@ -5,8 +5,6 @@ import java.time.LocalDateTime;
 
 public class Price {
 
-    private final Integer id;
-
     private final Integer brandId;
 
     private final Integer productId;
@@ -24,9 +22,8 @@ public class Price {
     private final String currencyIsoCode;
 
 
-    public Price(Integer id, Integer brandId, Integer productId, LocalDateTime startDate, LocalDateTime endDate,
+    public Price(Integer brandId, Integer productId, LocalDateTime startDate, LocalDateTime endDate,
                  Integer priceList, Integer priority, BigDecimal price, String currencyIsoCode) {
-        this.id = id;
         this.brandId = brandId;
         this.productId = productId;
         this.startDate = startDate;
@@ -35,10 +32,6 @@ public class Price {
         this.priority = priority;
         this.price = price;
         this.currencyIsoCode = currencyIsoCode;
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public Integer getBrandId() {
@@ -76,8 +69,7 @@ public class Price {
     @Override
     public String toString() {
         return "Price{" +
-                "id=" + id +
-                ", brandId=" + brandId +
+                "brandId=" + brandId +
                 ", productId=" + productId +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +

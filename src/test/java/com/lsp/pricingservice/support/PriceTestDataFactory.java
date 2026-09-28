@@ -45,14 +45,14 @@ public final class PriceTestDataFactory {
     public static final class PriceBuilder {
 
         private Integer id = ID;
-        private Integer brandId = BRAND_ID;
-        private Integer productId = PRODUCT_ID;
-        private Integer priceList = PRICE_LIST;
-        private Integer priority = PRIORITY;
-        private BigDecimal price = PRICE;
-        private String currencyIsoCode = CURRENCY_ISO_CODE;
-        private LocalDateTime startDate = START_DATE;
-        private LocalDateTime endDate = END_DATE;
+        private final Integer brandId = BRAND_ID;
+        private final Integer productId = PRODUCT_ID;
+        private final Integer priceList = PRICE_LIST;
+        private final Integer priority = PRIORITY;
+        private final BigDecimal price = PRICE;
+        private final String currencyIsoCode = CURRENCY_ISO_CODE;
+        private final LocalDateTime startDate = START_DATE;
+        private final LocalDateTime endDate = END_DATE;
 
         public PriceBuilder withId(Integer id) {
             this.id = id;
@@ -61,7 +61,6 @@ public final class PriceTestDataFactory {
 
         public Price build() {
             return new Price(
-                    id,
                     brandId,
                     productId,
                     startDate,

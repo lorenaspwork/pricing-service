@@ -18,7 +18,6 @@ class PriceEntityMapperTest {
         Price result = mapper.toDomain(entity);
 
         assertThat(result).extracting(
-                Price::getId,
                 Price::getBrandId,
                 Price::getProductId,
                 Price::getStartDate,
@@ -28,7 +27,6 @@ class PriceEntityMapperTest {
                 Price::getPrice,
                 Price::getCurrencyIsoCode
         ).containsExactly(
-                entity.getId(),
                 entity.getBrandId(),
                 entity.getProductId(),
                 entity.getStartDate(),
