@@ -78,11 +78,12 @@ class PriceJpaRepositoryTest {
         assertThat(prices).hasSize(2);
     }
 
-    private List<PriceEntity> findApplicablePrices(
-            Integer productId,
-            Integer brandId,
-            LocalDateTime applicationDate) {
-        return priceJpaRepository.findApplicablePrice(productId, brandId, applicationDate, Limit.of(2));
+    private List<PriceEntity> findApplicablePrices(Integer productId, Integer brandId, LocalDateTime applicationDate) {
+        return priceJpaRepository.findApplicablePriceCandidates(
+                productId,
+                brandId,
+                applicationDate,
+                Limit.of(2));
     }
 
     private static Stream<Arguments> applicablePrices() {

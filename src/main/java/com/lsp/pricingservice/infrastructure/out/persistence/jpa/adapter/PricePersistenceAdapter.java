@@ -15,13 +15,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PricePersistenceAdapter implements FindApplicablePricePort {
 
+    private static final int MAX_CANDIDATES_TO_DETECT_DUPLICATE = 2;
+
     private final PriceJpaRepository repository;
 
     private final PriceEntityMapper mapper;
 
     @Override
-    public List<Price> findApplicablePrices(Integer productId, Integer brandId, LocalDateTime applicationDate) {
-        return repository.findApplicablePrice(productId, brandId, applicationDate, Limit.of(2))
+    public List<Price> findApplicablePriceCandidates(
+            Integer productId,
+            Integer brandId,
+            LocalDateTime applicationDate) {
+        return repository.findApplicablePriceCandidates(
+                        productId,
+                        brandId,
+                        applicationDate,
+                        Limit.of(MAX_CANDIDATES_TO_DETECT_DUPLICATE))
                 .stream()
                 .map(mapper::toDomain)
                 .toList();

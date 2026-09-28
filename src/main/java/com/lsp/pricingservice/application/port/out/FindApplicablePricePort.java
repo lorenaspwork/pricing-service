@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface FindApplicablePricePort {
 
-    List<Price> findApplicablePrices(Integer productId, Integer brandId, LocalDateTime applicationDate);
+    List<Price> findApplicablePriceCandidates(Integer productId, Integer brandId, LocalDateTime applicationDate);
 }

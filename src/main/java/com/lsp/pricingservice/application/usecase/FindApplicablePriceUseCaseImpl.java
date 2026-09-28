@@ -17,7 +17,7 @@ public class FindApplicablePriceUseCaseImpl implements FindApplicablePriceUseCas
     @Override
     public Price findApplicablePrice(Integer productId, Integer brandId, LocalDateTime applicationDate) {
 
-        List<Price> prices = findApplicablePricePort.findApplicablePrices(productId, brandId, applicationDate);
+        List<Price> prices = findApplicablePricePort.findApplicablePriceCandidates(productId, brandId, applicationDate);
 
         if (prices.isEmpty()) {
             throw new ServiceException(ErrorCode.PRICE_NOT_FOUND, productId, brandId);

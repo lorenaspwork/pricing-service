@@ -27,7 +27,7 @@ public interface PriceJpaRepository extends JpaRepository<PriceEntity, Integer> 
             AND p2.endDate >= :applicationDate
       )
     """)
-    List<PriceEntity> findApplicablePrice(
+    List<PriceEntity> findApplicablePriceCandidates(
             @Param("productId") Integer productId,
             @Param("brandId") Integer brandId,
             @Param("applicationDate") LocalDateTime applicationDate,
