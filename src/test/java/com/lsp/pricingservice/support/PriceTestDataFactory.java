@@ -2,6 +2,7 @@ package com.lsp.pricingservice.support;
 
 import com.lsp.pricingservice.adapter.in.web.dto.PriceResponseDTO;
 import com.lsp.pricingservice.domain.model.Price;
+import com.lsp.pricingservice.domain.model.vo.ValidityPeriod;
 import com.lsp.pricingservice.infrastructure.out.persistence.jpa.entity.PriceEntity;
 
 import java.math.BigDecimal;
@@ -63,8 +64,7 @@ public final class PriceTestDataFactory {
             return new Price(
                     brandId,
                     productId,
-                    startDate,
-                    endDate,
+                    new ValidityPeriod(startDate, endDate),
                     priceList,
                     priority,
                     price,

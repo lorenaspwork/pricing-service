@@ -1,7 +1,10 @@
 package com.lsp.pricingservice.domain.model;
 
+import com.lsp.pricingservice.domain.model.vo.ValidityPeriod;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Price {
 
@@ -9,9 +12,7 @@ public class Price {
 
     private final Integer productId;
 
-    private final LocalDateTime startDate;
-
-    private final LocalDateTime endDate;
+    private final ValidityPeriod validityPeriod;
 
     private final Integer priceList;
 
@@ -21,13 +22,11 @@ public class Price {
 
     private final String currencyIsoCode;
 
-
-    public Price(Integer brandId, Integer productId, LocalDateTime startDate, LocalDateTime endDate,
+    public Price(Integer brandId, Integer productId, ValidityPeriod validityPeriod,
                  Integer priceList, Integer priority, BigDecimal price, String currencyIsoCode) {
         this.brandId = brandId;
         this.productId = productId;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.validityPeriod = Objects.requireNonNull(validityPeriod, "validityPeriod must not be null");
         this.priceList = priceList;
         this.priority = priority;
         this.price = price;
@@ -42,12 +41,16 @@ public class Price {
         return productId;
     }
 
+    public ValidityPeriod getValidityPeriod() {
+        return validityPeriod;
+    }
+
     public LocalDateTime getStartDate() {
-        return startDate;
+        return validityPeriod.startDate();
     }
 
     public LocalDateTime getEndDate() {
-        return endDate;
+        return validityPeriod.endDate();
     }
 
     public Integer getPriceList() {
@@ -71,8 +74,7 @@ public class Price {
         return "Price{" +
                 "brandId=" + brandId +
                 ", productId=" + productId +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
+                ", validityPeriod=" + validityPeriod +
                 ", priceList=" + priceList +
                 ", priority=" + priority +
                 ", price=" + price +
