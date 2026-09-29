@@ -24,7 +24,7 @@ class PriceEntityMapperTest {
                 Price::getValidityPeriod,
                 Price::getPriceList,
                 Price::getPriority,
-                Price::getPrice,
+                Price::getAmount,
                 Price::getCurrencyIsoCode
         ).containsExactly(
                 entity.getBrandId(),

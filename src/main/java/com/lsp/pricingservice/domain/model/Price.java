@@ -18,18 +18,18 @@ public class Price {
 
     private final Integer priority;
 
-    private final BigDecimal price;
+    private final BigDecimal amount;
 
     private final String currencyIsoCode;
 
     public Price(Integer brandId, Integer productId, ValidityPeriod validityPeriod,
-                 Integer priceList, Integer priority, BigDecimal price, String currencyIsoCode) {
+                 Integer priceList, Integer priority, BigDecimal amount, String currencyIsoCode) {
         this.brandId = brandId;
         this.productId = productId;
         this.validityPeriod = Objects.requireNonNull(validityPeriod, "validityPeriod must not be null");
         this.priceList = priceList;
         this.priority = priority;
-        this.price = price;
+        this.amount = amount;
         this.currencyIsoCode = currencyIsoCode;
     }
 
@@ -61,8 +61,8 @@ public class Price {
         return priority;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
     public String getCurrencyIsoCode() {
@@ -77,7 +77,7 @@ public class Price {
                 ", validityPeriod=" + validityPeriod +
                 ", priceList=" + priceList +
                 ", priority=" + priority +
-                ", price=" + price +
+                ", amount=" + amount +
                 ", currencyIsoCode='" + currencyIsoCode + '\'' +
                 '}';
     }
