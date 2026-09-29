@@ -1,6 +1,6 @@
 package com.lsp.pricingservice.infrastructure.out.persistence.jpa.adapter;
 
-import com.lsp.pricingservice.application.port.out.FindApplicablePricePort;
+import com.lsp.pricingservice.application.port.out.PriceQueryPort;
 import com.lsp.pricingservice.domain.model.Price;
 import com.lsp.pricingservice.infrastructure.out.persistence.jpa.mapper.PriceEntityMapper;
 import com.lsp.pricingservice.infrastructure.out.persistence.jpa.repository.PriceJpaRepository;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class PricePersistenceAdapter implements FindApplicablePricePort {
+public class PriceQueryPersistenceAdapter implements PriceQueryPort {
 
     private static final int MAX_CANDIDATES_TO_DETECT_DUPLICATE = 2;
 

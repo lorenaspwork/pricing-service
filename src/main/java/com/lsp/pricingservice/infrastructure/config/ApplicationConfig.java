@@ -1,7 +1,7 @@
 package com.lsp.pricingservice.infrastructure.config;
 
 import com.lsp.pricingservice.application.port.in.FindApplicablePriceUseCase;
-import com.lsp.pricingservice.application.port.out.FindApplicablePricePort;
+import com.lsp.pricingservice.application.port.out.PriceQueryPort;
 import com.lsp.pricingservice.application.usecase.FindApplicablePriceUseCaseImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class ApplicationConfig {
 
     @Bean
-    FindApplicablePriceUseCase findApplicablePriceUseCase(FindApplicablePricePort findApplicablePricePort) {
-        return new FindApplicablePriceUseCaseImpl(findApplicablePricePort);
+    FindApplicablePriceUseCase findApplicablePriceUseCase(PriceQueryPort priceQueryPort) {
+        return new FindApplicablePriceUseCaseImpl(priceQueryPort);
     }
 }

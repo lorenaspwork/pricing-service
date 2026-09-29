@@ -3,7 +3,7 @@ package com.lsp.pricingservice.application.usecase;
 import com.lsp.pricingservice.application.exception.ErrorCode;
 import com.lsp.pricingservice.application.exception.ServiceException;
 import com.lsp.pricingservice.application.port.in.FindApplicablePriceUseCase;
-import com.lsp.pricingservice.application.port.out.FindApplicablePricePort;
+import com.lsp.pricingservice.application.port.out.PriceQueryPort;
 import com.lsp.pricingservice.domain.model.Price;
 import com.lsp.pricingservice.support.PriceTestDataFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,40 +30,40 @@ class FindApplicablePriceUseCaseImplTest {
     private FindApplicablePriceUseCase useCase;
 
     @Mock
-    private FindApplicablePricePort findApplicablePricePort;
+    private PriceQueryPort priceQueryPort;
 
     @BeforeEach
     void setUp() {
-        useCase = new FindApplicablePriceUseCaseImpl(findApplicablePricePort);
+        useCase = new FindApplicablePriceUseCaseImpl(priceQueryPort);
     }
 
     @Test
     void givenExactlyOneValidPrice_whenFindApplicablePrice_thenReturnThatPrice() {
         Price expectedPrice = PriceTestDataFactory.price();
-        when(findApplicablePricePort.findApplicablePriceCandidates(PRODUCT_ID, BRAND_ID, APPLICATION_DATE))
+        when(priceQueryPort.findApplicablePriceCandidates(PRODUCT_ID, BRAND_ID, APPLICATION_DATE))
                 .thenReturn(List.of(expectedPrice));
 
         Price result = useCase.findApplicablePrice(PRODUCT_ID, BRAND_ID, APPLICATION_DATE);
 
         assertThat(result).isSameAs(expectedPrice);
-        verify(findApplicablePricePort).findApplicablePriceCandidates(PRODUCT_ID, BRAND_ID, APPLICATION_DATE);
+        verify(priceQueryPort).findApplicablePriceCandidates(PRODUCT_ID, BRAND_ID, APPLICATION_DATE);
     }
 
     @Test
     void givenNoApplicablePrices_whenFindApplicablePrice_thenThrowPriceNotFound() {
-        when(findApplicablePricePort.findApplicablePriceCandidates(PRODUCT_ID, BRAND_ID, APPLICATION_DATE))
+        when(priceQueryPort.findApplicablePriceCandidates(PRODUCT_ID, BRAND_ID, APPLICATION_DATE))
                 .thenReturn(List.of());
 
         assertThatThrownBy(() -> useCase.findApplicablePrice(PRODUCT_ID, BRAND_ID, APPLICATION_DATE))
                 .isInstanceOfSatisfying(ServiceException.class, exception ->
                         assertThat(exception.getErrorCode()).isEqualTo(ErrorCode.PRICE_NOT_FOUND));
 
-        verify(findApplicablePricePort).findApplicablePriceCandidates(PRODUCT_ID, BRAND_ID, APPLICATION_DATE);
+        verify(priceQueryPort).findApplicablePriceCandidates(PRODUCT_ID, BRAND_ID, APPLICATION_DATE);
     }
 
     @Test
     void givenMultipleApplicablePrices_whenFindApplicablePrice_thenThrowDuplicatedPrice() {
-        when(findApplicablePricePort.findApplicablePriceCandidates(PRODUCT_ID, BRAND_ID, APPLICATION_DATE))
+        when(priceQueryPort.findApplicablePriceCandidates(PRODUCT_ID, BRAND_ID, APPLICATION_DATE))
                 .thenReturn(List.of(
                         PriceTestDataFactory.priceBuilder().withId(1).build(),
                         PriceTestDataFactory.priceBuilder().withId(2).build()));
@@ -72,7 +72,7 @@ class FindApplicablePriceUseCaseImplTest {
                 .isInstanceOfSatisfying(ServiceException.class, exception ->
                         assertThat(exception.getErrorCode()).isEqualTo(ErrorCode.DUPLICATED_PRICE));
 
-        verify(findApplicablePricePort).findApplicablePriceCandidates(PRODUCT_ID, BRAND_ID, APPLICATION_DATE);
+        verify(priceQueryPort).findApplicablePriceCandidates(PRODUCT_ID, BRAND_ID, APPLICATION_DATE);
     }
 
 }
